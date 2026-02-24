@@ -2,10 +2,8 @@ streamlit
 pandas
 numpy
 plotly
-TA-Lib
 torch
-torchvision
-torchaudio
 rug
 twelvedata
-yfinance 
+yfinance
+pandas_ta

@@ -337,19 +337,16 @@ class DataSourceManager:
         # Try Rug first
         if 'rug' in self.stocks_sources and RUG_AVAILABLE:
             try:
-                ticker = rug.Ticker(symbol)
+                # Naya rug syntax 'get_ohlcv' use karein
                 days = self._period_to_days(period)
-                df = ticker.history(days=days)
-                if not df.empty:
-                    # Standardize column names
+                df = rug.get_ohlcv(symbol, days=days) 
+                
+                if df is not None and not df.empty:
+                    # Column names ko standardize karein
                     df.columns = [col.capitalize() for col in df.columns]
-                    if 'Datetime' in df.columns:
-                        df.set_index('Datetime', inplace=True)
-                    # Rug returns data in descending order? Ensure ascending
-                    df = df.sort_index()
-                    # Filter rows based on interval (if needed) – rug may return all days
-                    # We'll trust rug's output; if interval is intraday, rug may not support
-                    return df
+                    if 'Date' in df.columns:
+                        df.set_index('Date', inplace=True)
+                    return df.sort_index()
                 else:
                     st.warning(f"Rug returned no data for {symbol}")
             except Exception as e:

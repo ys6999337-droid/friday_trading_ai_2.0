@@ -2,7 +2,6 @@ streamlit
 pandas
 numpy
 plotly
-rug
 torch
 twelvedata
 yfinance
